@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import DestinationPage from './pages/DestinationPage';
 import Reviews from './pages/Reviews';
 import LoginModal from './components/LoginModal';
 import About from "./pages/About";
+import ReactGA from 'react-ga';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -14,6 +15,18 @@ function App() {
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  // Initialize Google Analytics
+  useEffect(() => {
+    ReactGA.initialize('G-4LDY95G1BR'); // Replace with your Google Analytics tracking ID
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
+  // Track page views on route change
+  const location = useLocation();
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
 
   return (
     <Router>
