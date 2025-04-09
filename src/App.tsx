@@ -5,8 +5,22 @@ import Home from './pages/Home';
 import DestinationPage from './pages/DestinationPage';
 import Reviews from './pages/Reviews';
 import LoginModal from './components/LoginModal';
-import About from "./pages/About";
+import About from './pages/About';
 import ReactGA from 'react-ga';
+
+// A wrapper to track route changes
+function GAListener() {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({
+      hitType: 'pageview',
+      page: location.pathname + location.search,
+    });
+  }, [location]);
+
+  return null;
+}
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -16,20 +30,13 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // Initialize Google Analytics
   useEffect(() => {
-    ReactGA.initialize('G-4LDY95G1BR'); // Replace with your Google Analytics tracking ID
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.initialize('G-4LDY95G1BR');
   }, []);
-
-  // Track page views on route change
-  const location = useLocation();
-  useEffect(() => {
-    ReactGA.pageview(location.pathname + location.search);
-  }, [location]);
 
   return (
     <Router>
+      <GAListener />
       <div className={isDarkMode ? 'dark' : ''}>
         <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'}`}>
           <Navbar 
