@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import DestinationPage from './pages/DestinationPage';
@@ -7,20 +7,6 @@ import Reviews from './pages/Reviews';
 import LoginModal from './components/LoginModal';
 import About from './pages/About';
 import ReactGA from 'react-ga';
-
-// A wrapper to track route changes
-function GAListener() {
-  const location = useLocation();
-
-  useEffect(() => {
-    ReactGA.send({
-      hitType: 'pageview',
-      page: location.pathname + location.search,
-    });
-  }, [location]);
-
-  return null;
-}
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -30,13 +16,9 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  useEffect(() => {
-    ReactGA.initialize('G-4LDY95G1BR');
-  }, []);
 
   return (
     <Router>
-      <GAListener />
       <div className={isDarkMode ? 'dark' : ''}>
         <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'}`}>
           <Navbar 
